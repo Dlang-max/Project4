@@ -191,7 +191,7 @@ public class SimpleExpressionParser implements ExpressionParser {
 		if(str.length() >= 3 && str.charAt(0) == '(' && str.charAt(str.length() - 1) == ')') {
 			Expression expression = parseExpression(str.substring(1, str.length() - 1));
 			if(expression != null) {
-				return expression;
+				return new ParentheticalExpression(expression);
 			}
 		} else {
 			Expression expression = parseLiteralExpression(str);
@@ -273,6 +273,6 @@ public class SimpleExpressionParser implements ExpressionParser {
 
 	public static void main (String[] args) throws ExpressionParseException {
 		final ExpressionParser parser = new SimpleExpressionParser();
-		System.out.println(parser.parse("log(x^2)*x-x^3").convertToString(0));
+		System.out.println(parser.parse("10*x^3 + 2*(15+x)").convertToString(0));
 	}
 }
