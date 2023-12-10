@@ -105,7 +105,6 @@ public class GraphingCalculator extends Application {
 				Double x = -1 * (e.getSceneX() - GRAPH_CENTER_X) * width / GRAPH_WIDTH;
 				Double y = (e.getSceneY() - GRAPH_CENTER_Y) * height / GRAPH_HEIGHT;
 				
-				System.out.println(e.getSceneY());
 				if(!HAS_STARTED){
 					START_DIFF_X = x - (xAxis.getUpperBound() + xAxis.getLowerBound())/2;
 					START_DIFF_y = y - (yAxis.getUpperBound() + yAxis.getLowerBound())/2;
