@@ -16,6 +16,9 @@ public class ParentheticalExpression implements Expression {
         for(int i = 0; i < indentLevel; i++){
             indent += "\t";
         }
+
+        
+
         return indent + "()\n" + expression.convertToString(indentLevel + 1);
     }
 

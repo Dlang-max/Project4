@@ -1,15 +1,15 @@
-public class MultiplicityExpression implements Expression {
+public class MultiplicativeExpression implements Expression {
     private Expression leftOfSign;
     private Expression rightOfSign;
     private boolean isDivision;
 
-    public MultiplicityExpression(Expression left, Expression right, boolean division){
+    public MultiplicativeExpression(Expression left, Expression right, boolean division){
         leftOfSign = left;
         rightOfSign = right;
         this.isDivision = division;
     }
 
-    public MultiplicityExpression(Expression left, Expression right){
+    public MultiplicativeExpression(Expression left, Expression right){
         leftOfSign = left;
         rightOfSign = right;
         isDivision = false;
@@ -17,7 +17,7 @@ public class MultiplicityExpression implements Expression {
 
     @Override
     public Expression deepCopy() {
-        return new MultiplicityExpression(leftOfSign.deepCopy(), rightOfSign.deepCopy(), isDivision); 
+        return new MultiplicativeExpression(leftOfSign.deepCopy(), rightOfSign.deepCopy(), isDivision); 
     }
 
     @Override
@@ -26,6 +26,7 @@ public class MultiplicityExpression implements Expression {
         for(int i = 0; i < indentLevel; i++){
             indent += "\t";
         }
+
         return indent + (isDivision ? "/" : "*") + "\n" + leftOfSign.convertToString(indentLevel + 1) + rightOfSign.convertToString(indentLevel + 1);
     }
 
@@ -34,11 +35,20 @@ public class MultiplicityExpression implements Expression {
         if(isDivision){
             return leftOfSign.evaluate(x) / rightOfSign.evaluate(x);
         }
+
         return leftOfSign.evaluate(x) * rightOfSign.evaluate(x); 
     }
 
     @Override
     public Expression differentiate() {
-        return null; //todo
+        Expression left = new MultiplicativeExpression(leftOfSign.deepCopy().differentiate(), rightOfSign);
+        Expression right = new MultiplicativeExpression(leftOfSign, rightOfSign.deepCopy().differentiate());
+        
+        if(isDivision){
+            Expression numerator = new AdditiveExpression(left, right, true);
+            Expression denominator = new ExponentialExpression(rightOfSign, new LiteralExpression("2"));
+            return new MultiplicativeExpression(numerator, denominator, true);
+        }
+        return new AdditiveExpression(left, right);
     }    
 }

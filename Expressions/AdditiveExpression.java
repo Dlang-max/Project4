@@ -26,6 +26,7 @@ public class AdditiveExpression implements Expression {
         for(int i = 0; i < indentLevel; i++){
             indent += "\t";
         }
+        
         return indent + (isSubtraction ? "-" : "+") + "\n" + leftOfSign.convertToString(indentLevel + 1) + rightOfSign.convertToString(indentLevel + 1);
     }
 

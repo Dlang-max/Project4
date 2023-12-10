@@ -27,6 +27,6 @@ public class LogarithmicExpression implements Expression {
 
     @Override
     public Expression differentiate() {
-        return null; //todo
+        return new MultiplicativeExpression(argument.deepCopy().differentiate(), argument, true);
     }    
 }

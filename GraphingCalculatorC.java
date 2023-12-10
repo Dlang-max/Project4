@@ -21,7 +21,7 @@ import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class GraphingCalculator extends Application {
+public class GraphingCalculatorC extends Application {
 	public static void main (String[] args) {
 		launch(args);
 	}
@@ -92,7 +92,6 @@ public class GraphingCalculator extends Application {
 		});
 
 		
-		//Handles panning the graph with the mouse.
 		graphPane.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			//When the mouse is dragged:
 			public void handle (MouseEvent e) {
@@ -139,7 +138,7 @@ public class GraphingCalculator extends Application {
 			}
 		});
 
-		//Handles zooming in and out of the graph with the mouse.
+
 		graphPane.setOnScroll(new EventHandler<ScrollEvent>() {
 			public void handle(ScrollEvent e){
 				
@@ -164,6 +163,9 @@ public class GraphingCalculator extends Application {
 			}
 		});
 		
+
+		
+
 		queryPane.getChildren().add(graphButton);
 		queryPane.getChildren().add(diffBox);
 

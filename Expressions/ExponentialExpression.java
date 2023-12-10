@@ -18,6 +18,7 @@ public class ExponentialExpression implements Expression {
         for(int i = 0; i < indentLevel; i++){
             indent += "\t";
         }
+
         return indent + "^\n" + base.convertToString(indentLevel + 1) + power.convertToString(indentLevel + 1);
     }
 
@@ -27,7 +28,16 @@ public class ExponentialExpression implements Expression {
     }
 
     @Override
-    public Expression differentiate() {
-        return null; //todo
+    public Expression differentiate() throws UnsupportedOperationException{
+
+        if(!(power instanceof LiteralExpression)){//If the exponent is not a constant.
+            if(!(base instanceof LiteralExpression)) throw new UnsupportedOperationException();
+            Expression chain = new MultiplicativeExpression(this, power.deepCopy().differentiate());
+            return new MultiplicativeExpression(chain, new LogarithmicExpression(base));
+        }
+
+        Expression newExponential = new ExponentialExpression(base, new AdditiveExpression(power, new LiteralExpression("1"), true));
+        Expression chain = new MultiplicativeExpression(newExponential, base.deepCopy().differentiate());
+        return new MultiplicativeExpression(chain, power);
     }    
 }
