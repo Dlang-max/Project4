@@ -1,24 +1,17 @@
 import javafx.application.Application;
 import javafx.scene.chart.*;
-import java.util.*;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.event.EventHandler;
-import javafx.scene.layout.StackPane;
+
 import javafx.stage.Stage;
 
 public class GraphingCalculator extends Application {
@@ -27,8 +20,8 @@ public class GraphingCalculator extends Application {
 	}
 
 	protected static final int WINDOW_WIDTH = 600, WINDOW_HEIGHT = 500;
-	protected static double MIN_X = -10, MAX_X = +10, DELTA_X = 0.01;
-	protected static double MIN_Y = -10, MAX_Y = +10;
+	protected static final double MIN_X = -10, MAX_X = +10, DELTA_X = 0.01;
+	protected static final double MIN_Y = -10, MAX_Y = +10;
 	protected static final double GRID_INTERVAL = 5;
 	protected static final String EXAMPLE_EXPRESSION = "2*x+5*x*x";
 	protected final ExpressionParser expressionParser = new SimpleExpressionParser();
@@ -40,6 +33,8 @@ public class GraphingCalculator extends Application {
 	private int GRAPH_CENTER_Y = 213;
 	private int GRAPH_WIDTH = 445;
 	private int GRAPH_HEIGHT = 345;
+	private double SCALING_FACTOR = 0.8;
+	private int MINIMUM_SCROLL_DELTA = 10; 
 
 	
 	private void graph (LineChart<Number, Number> chart, Expression expression, boolean clear) {
@@ -145,20 +140,20 @@ public class GraphingCalculator extends Application {
 				NumberAxis xAxis = (NumberAxis) chart.getXAxis();
 				NumberAxis yAxis = (NumberAxis) chart.getYAxis();
 
-				if(e.getDeltaY() > 10){
-					xAxis.setLowerBound(xAxis.getLowerBound() * 0.8);
-					xAxis.setUpperBound(xAxis.getUpperBound() * 0.8);
+				if(e.getDeltaY() > MINIMUM_SCROLL_DELTA){
+					xAxis.setLowerBound(xAxis.getLowerBound() * SCALING_FACTOR);
+					xAxis.setUpperBound(xAxis.getUpperBound() * SCALING_FACTOR);
 
-					yAxis.setLowerBound(yAxis.getLowerBound() * 0.8);
-					yAxis.setUpperBound(yAxis.getUpperBound() * 0.8);
+					yAxis.setLowerBound(yAxis.getLowerBound() * SCALING_FACTOR);
+					yAxis.setUpperBound(yAxis.getUpperBound() * SCALING_FACTOR);
 				}
 
-				if(e.getDeltaY() < 10){
-					xAxis.setLowerBound(xAxis.getLowerBound() / 0.8);
-					xAxis.setUpperBound(xAxis.getUpperBound() / 0.8);
+				if(e.getDeltaY() < MINIMUM_SCROLL_DELTA){
+					xAxis.setLowerBound(xAxis.getLowerBound() / SCALING_FACTOR);
+					xAxis.setUpperBound(xAxis.getUpperBound() / SCALING_FACTOR);
 
-					yAxis.setLowerBound(yAxis.getLowerBound() / 0.8);
-					yAxis.setUpperBound(yAxis.getUpperBound() / 0.8);
+					yAxis.setLowerBound(yAxis.getLowerBound() / SCALING_FACTOR);
+					yAxis.setUpperBound(yAxis.getUpperBound() / SCALING_FACTOR);
 				}
 			}
 		});
