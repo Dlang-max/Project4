@@ -96,8 +96,6 @@ public class SimpleExpressionParser implements ExpressionParser {
 	public Expression parseSinglePartExpression(String str, Function<String, Expression> A, Function<Expression, Expression> expressionCreator) {
 		
 		Expression expression = A.apply(str);
-		System.out.println(str);
-		System.out.println(expression);
 		if(expression != null) {
 			return expressionCreator.apply(expression);
 		}
